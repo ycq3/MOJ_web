@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import MOJHome from '@/components/MOJHome'
 import MOJMenu from '@/components/MOJMenu'
 import Problem from '@/components/Problem/ProblemList'
+import ProblemDetail from '@/components/Problem/ProblemDetail'
 import Test from '@/components/Test'
 
 Vue.use(Router)
@@ -23,6 +24,11 @@ export default new Router({
       path: '/problem',
       name: 'Problem',
       component: Problem
+    },
+    {
+      path: '/problem/id/:id',
+      name: 'ProblemDetail',
+      component: ProblemDetail
     },
     {
       path: '/test',

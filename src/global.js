@@ -2,5 +2,6 @@ export default {
   baseURL: '/',
   currentURL: '',
   token: '',
-  userSite: ''
+  userSite: '',
+  isLogin:false
 }
