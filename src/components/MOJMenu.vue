@@ -20,7 +20,7 @@
         <el-menu-item index="2-4-3">Private</el-menu-item>
       </el-submenu>
       <el-menu-item index="3" disabled>考试</el-menu-item>
-      <el-menu-item index="4" style="float: right;">Login</el-menu-item>
+      <el-menu-item index="/login" style="float: right;">Login</el-menu-item>
     </el-menu>
     <div class="line"></div>
   </div>

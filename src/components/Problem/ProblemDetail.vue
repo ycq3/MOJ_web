@@ -63,20 +63,18 @@
             </div>
           </div>
         </div>
-
-
-        <div class="card-footer">
-          <el-button type="primary" @click="show">{{editorBtn}}</el-button>
-          <el-button type="success">{{showHistory}}</el-button>
+        <div class="card-footer" style="margin: 10px">
+          <el-button type="primary" @click="show">{{btnText.editorBtn}}</el-button>
+          <el-button type="success" @click="showHistory">{{btnText.historyBtn}}</el-button>
         </div>
 
       </el-card>
     </el-col>
     <el-col :span="editorShow?16:0">
       <!--编辑器-->
-      <el-card>
-        <div id="edit" class="col-12 float-right">
-          <div style="background-color: rgba(0, 0, 0, 0.03)" class="form-inline">
+      <el-card style="margin-bottom: 10px">
+        <div id="edit">
+          <div style="margin: 10px;">
             <el-select v-model="selectData.selected" filterable placeholder="select language">
               <el-option
                 v-for="(item,index) in selectData.language"
@@ -85,15 +83,12 @@
                 :value="index">
               </el-option>
             </el-select>
-
-            <div class="col">
-              <el-button type="button" class="close float-right form-control" aria-label="Close" @click="show">
-                <span aria-hidden="true">&times;</span>
-                <span class="sr-only">Close</span>
-              </el-button>
-            </div>
+            <el-button @click="show" style="float:right;">
+              <span class="sr-only">Close</span>
+              <span aria-hidden="true">&times;</span>
+            </el-button>
           </div>
-          <div class="row" style="font-size: large">
+          <div class="row" style="font-size: large;border-radius:4px">
             <codemirror
               id="editor"
               class="text-left col-sm-12"
@@ -103,10 +98,12 @@
           </div>
           <div class="row" style="padding: 5px">
             <div class="col text-center">
-              <button class="btn btn-primary" style="width: 69px" v-on:click="clear">{{btnText.clearBtn}}</button>
-            </div>
-            <div class="col text-center">
-              <button class="btn btn-success" style="width: 69px" v-on:click="submit">{{btnText.submitBtn}}</button>
+              <el-button
+                type="primary"
+                v-on:click="submit">{{btnText.submitBtn}}</el-button>
+              <el-button
+                type="danger"
+                v-on:click="clear">{{btnText.clearBtn}}</el-button>
             </div>
           </div>
         </div>
@@ -115,11 +112,8 @@
     </el-col>
 
 
-
-
     <!-- 提交记录 -->
-    <div class="modal fade" id="subHistory" role="dialog" aria-labelledby="subHistory"
-         aria-hidden="true">
+    <el-dialog :visible.sync="historyShow">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -160,7 +154,7 @@
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    </el-dialog><!-- /.modal -->
   </el-row>
 </template>
 
@@ -193,10 +187,9 @@
           selected: '',
         },
         editorShow: false,
-        showHistory: 'History',
+        historyShow: false,
         viewAllSubmit: 'View All Submit',
         editorCode: '',
-        editorBtn: 'Editor',
         subHistoryTitle: 'Submit History',
         subTableText: {
           status: 'Status',
@@ -221,7 +214,9 @@
         },
         btnText: {
           submitBtn: 'Submit',
-          clearBtn: 'Clear'
+          clearBtn: 'Clear',
+          editorBtn: 'Editor',
+          historyBtn: 'History',
         },
         status_list: [],
         resultSelect: [
@@ -301,25 +296,26 @@
           });
         }
       },
-      viewHistory () {//查看历史记录前检查登陆
-        if (this.globalLoginData.islogin == false) {
-          $("#login").modal("show");
+      showHistory () {//查看历史记录前检查登陆
+        this.historyShow = !this.historyShow;
+        if (!this.global.isLogin) {
+          console.log('login');
         } else {
-          $("#subHistory").modal();
+
           axios.post('/problem/status/' + this.p_id).then(response => {
             let list = response.data.data;
             this.status_list = list;
           });
         }
       },
-      move(e){
+      move (e) {
         let odiv = e.target;        //获取目标元素
-console.log(odiv)
+        console.log(odiv)
         //算出鼠标相对元素的位置
         let disX = e.clientX - odiv.offsetLeft;
         let disY = e.clientY - odiv.offsetTop;
-        document.onmousemove = (e)=>{       //鼠标按下并移动的事件
-                                            //用鼠标的位置减去鼠标相对元素的位置，得到元素的位置
+        document.onmousemove = (e) => {       //鼠标按下并移动的事件
+          //用鼠标的位置减去鼠标相对元素的位置，得到元素的位置
           let left = e.clientX - disX;
           let top = e.clientY - disY;
 
@@ -330,7 +326,7 @@ console.log(odiv)
           //移动当前元素
           odiv.style.left = left + 'px';
           odiv.style.top = top + 'px';
-          console.log(left+'---'+top)
+          console.log(left + '---' + top)
         };
         document.onmouseup = (e) => {
           document.onmousemove = null;
