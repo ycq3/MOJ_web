@@ -14,7 +14,7 @@
       </el-submenu>
       <el-submenu index="2-4">
         <template slot="title">Contest</template>
-        <el-menu-item index="2-4-1">All</el-menu-item>
+        <el-menu-item index="/contest">All</el-menu-item>
         <el-menu-item index="2-4-1">Running</el-menu-item>
         <el-menu-item index="2-4-2">Class</el-menu-item>
         <el-menu-item index="2-4-3">Private</el-menu-item>

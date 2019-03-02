@@ -150,7 +150,7 @@
             </table>
           </div>
           <div class="modal-footer">
-            <!--<router-link v-bind:to="'/problemStatus/'+this.p_id" class="mx-auto btn btn-primary" tag="a" target="_blank">{{viewAllSubmit}}</router-link>-->
+            <!--<router-link v-bind:to="'/problemStatus/'+this.pId" class="mx-auto btn btn-primary" tag="a" target="_blank">{{viewAllSubmit}}</router-link>-->
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -256,7 +256,7 @@
           'Go',
           'Other'
         ],
-        p_id: this.$route.params.id,
+        pId: this.$route.params.id,
       }
     },
     methods: {
@@ -276,7 +276,7 @@
       //加载数据
       load () {
         //获取问题详情
-        this.axios.post('/problem/id/' + this.p_id).then(response => {
+        this.axios.post('/problem/id/' + this.pId).then(response => {
           let data = response.data;
           this.problemData = data;
           this.selectData.language = data['language'];//语言下拉框
@@ -287,7 +287,7 @@
         if (this.global.isLogin == false) {//提交前登陆检查
           $("#login").modal("show");
         } else if (this.editorCode != '') {
-          axios.post('/problem/submit/' + this.p_id, {
+          axios.post('/problem/submit/' + this.pId, {
             'language': this.selectData.selected,
             'code': this.editorCode
           }).then(response => {
@@ -302,7 +302,7 @@
           console.log('login');
         } else {
 
-          axios.post('/problem/status/' + this.p_id).then(response => {
+          axios.post('/problem/status/' + this.pId).then(response => {
             let list = response.data.data;
             this.status_list = list;
           });
