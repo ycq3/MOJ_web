@@ -7,7 +7,7 @@
         <div>
           <el-table
             @row-click="goto"
-            :data="problem_list">
+            :data="problemList">
             <el-table-column
               v-for="(head,index) in problemHeadText"
               :key='index'
@@ -32,7 +32,7 @@
         </div>
       </el-card>
       <el-card
-        style="margin-top: 10px"
+        style="margin-top: 15px"
         shadow="hover"
         class="box-card">
         <div>
@@ -75,7 +75,7 @@
           {key: 'title', label: 'Title'},
           {key: 'subject', label: 'Subject'}
         ],
-        problem_list: [],
+        problemList: [],
         currentPage: -1,
         timer: null,
         progress: 100,
@@ -95,7 +95,7 @@
         })
       },
       load_problem () {
-        while (this.problem_list.pop()) {
+        while (this.problemList.pop()) {
         }
         // 获取问题列表
         this.axios.post('/problem', {
@@ -113,7 +113,7 @@
             item['subject'] += (item['submited'] ? item['accepted'] / item['submited'] * 100 : 0).toFixed(2) + '%'
             ProblemList.push(item)
           })
-          this.problem_list = ProblemList
+          this.problemList = ProblemList
         })
       },
       search () {
