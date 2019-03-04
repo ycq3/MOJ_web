@@ -11,6 +11,9 @@ import ProblemDetail from '@/components/Problem/ProblemDetail'
 import Contest from '@/components/Contest/ContestList'
 import ContestDetail from '@/components/Contest/ContestDetail'
 import ContestInformation from '@/components/Contest/ContestInformation'
+import ContestProblem from '@/components/Contest/ContestProblemList'
+import ContestProblemStatus from '@/components/Contest/ContestProblemStatus'
+import ContestProblemRank from '@/components/Contest/ContestProblemRank'
 
 Vue.use(Router)
 
@@ -61,6 +64,21 @@ export default new Router({
           path: 'ContestInformation',
           name: 'ContestInformation',
           component: ContestInformation
+        },
+        {
+          path: 'ContestProblem',
+          name: 'ContestProblem',
+          component: ContestProblem
+        },
+        {
+          path: 'ContestProblemStatus',
+          mame: 'ContestProblemStatus',
+          component: ContestProblemStatus
+        },
+        {
+          path: 'ContestProblemRank',
+          name: 'ContestProblemRank',
+          component: ContestProblemRank
         }
       ]
     }

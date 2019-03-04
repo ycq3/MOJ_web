@@ -5,9 +5,7 @@
         <ContestMenu v-bind:contest-id="cId"></ContestMenu>
       </el-col>
       <el-col :span="20">
-        <el-card shadow="hover">
           <router-view></router-view>
-        </el-card>
       </el-col>
     </el-row>
   </div>

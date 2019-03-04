@@ -9,15 +9,15 @@
             <i class="el-icon-info"></i>
             <span slot="title">{{pageText.ContestInformation}}</span>
           </el-menu-item>
-          <el-menu-item index="2">
+          <el-menu-item v-bind:index="'/ContestDetail/id/' + id +'/ContestProblem'">
             <i class="el-icon-edit-outline"></i>
             <span slot="title">{{pageText.ContestProblem}}</span>
           </el-menu-item>
-          <el-menu-item index="3">
+          <el-menu-item v-bind:index="'/ContestDetail/id/' + id +'/ContestProblemStatus'">
             <i class="el-icon-document"></i>
             <span slot="title">{{pageText.ContestStatus}}</span>
           </el-menu-item>
-          <el-menu-item index="4">
+          <el-menu-item v-bind:index="'/ContestDetail/id/' + id +'/ContestProblemRank'">
             <i class="el-icon-menu"></i>
             <span slot="title">{{pageText.ContestRank}}</span>
           </el-menu-item>
