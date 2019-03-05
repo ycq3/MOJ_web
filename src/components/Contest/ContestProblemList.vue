@@ -7,7 +7,7 @@
       <div>
         <!--@row-click="goto"-->
         <el-table
-
+          @cell-click="loadProblem"
           :data="ContestProblemList">
           <el-table-column
             v-for="(head,index) in problemListHeadText"
@@ -27,6 +27,7 @@
         name: "ContestProblemList",
         data(){
           return {
+            cId: this.$route.params.id,
             pageText: {
               title: '问题列表',
             },
@@ -41,6 +42,14 @@
               {solved: 'true', id: 1, title: 'testProblem1', ratio: '0/0'}
             ]
           }
+        },
+        methods: {
+          loadProblem(row, column, cell, event) {
+            this.$router.push('/ContestDetail/id/' + this.cId + '/ContestProblemDetail/pId/' + row.id);
+          }
+        },
+        mounted() {
+          // console.log(this.cId);
         }
     }
 </script>

@@ -5,12 +5,12 @@
         <el-card shadow="hover">
           <el-row>
             <el-col :span="4">
-              <h2 style="margin: 0px"><i class="el-icon-edit">比赛</i></h2>
+              <h2 style="margin: 0px"><i class="el-icon-edit">{{pageText.title}}</i></h2>
             </el-col>
             <el-col :span="8" :offset="12">
               <div>
-                <el-input placeholder="请输入内容" v-model="searchText" class="input-with-select">
-                  <span slot="prepend">Search</span>
+                <el-input placeholder="请输入内容" v-model="searchText" class="input-with-select" clearable>
+                  <span slot="prepend">{{pageText.search}}</span>
                   <el-button slot="append" icon="el-icon-search"></el-button>
                 </el-input>
               </div>
@@ -27,7 +27,7 @@
           class="box-card">
           <div>
             <el-table
-              @row-click="goto"
+              @cell-click="goto"
               :data="contestList">
               <el-table-column
                 v-for="(head,index) in contestHeadText"
@@ -51,6 +51,10 @@
         name: "ContestList",
         data(){
           return {
+            pageText: {
+              title: '比赛',
+              search: 'search'
+            },
             searchText:'',
             contestHeadText: [
               // {key: 'solve', label: 'Solved'},

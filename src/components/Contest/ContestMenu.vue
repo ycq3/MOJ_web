@@ -44,7 +44,7 @@
           }
         },
         mounted(){
-          // console.log(this.id + "menu");
+          // console.log(this.id + " menu");
         }
     }
 </script>

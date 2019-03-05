@@ -6,7 +6,7 @@
         </div>
         <div>
           <div>
-            <label>{{pageText.beginTime}}&nbsp;<span>{{contestInformation.beginTime}}</span>&emsp;</label>
+            <label>{{pageText.beginTime}}:&nbsp;<span>{{contestInformation.beginTime}}</span>&emsp;</label>
             <label>{{pageText.endTime}}:&nbsp;<span>{{contestInformation.endTime}}</span> </label>
           </div>
           <div>
@@ -29,18 +29,15 @@
 <script>
     export default {
         name: "ContestInformation",
-        props:{
-          contsetId: String
-        },
         data(){
           return {
-            id: this.contestId,
+            id: this.$route.params.id,
             pageText:{
-              beginTime: '开始时间：',
-              endTime: '结束时间：',
-              currentTime: '当前时间：',
-              type: '比赛类型：',
-              status: '比赛状态：'
+              beginTime: '开始时间',
+              endTime: '结束时间',
+              currentTime: '当前时间',
+              type: '比赛类型',
+              status: '比赛状态'
             },
             contestInformation: {
               title: 'problem title',
@@ -56,7 +53,7 @@
         },
         mounted(){
           this.setCurrentTime();//计时器启动
-          // console.log(this.id + "information");
+          console.log(this.id + "information");
         },
         watch:{
           thisTime:function () {//根据计时器计算当前时间

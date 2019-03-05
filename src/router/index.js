@@ -14,6 +14,7 @@ import ContestInformation from '@/components/Contest/ContestInformation'
 import ContestProblem from '@/components/Contest/ContestProblemList'
 import ContestProblemStatus from '@/components/Contest/ContestProblemStatus'
 import ContestProblemRank from '@/components/Contest/ContestProblemRank'
+import ContestProblemDetail from '@/components/Contest/ContestProblemDetail'
 
 Vue.use(Router)
 
@@ -79,6 +80,11 @@ export default new Router({
           path: 'ContestProblemRank',
           name: 'ContestProblemRank',
           component: ContestProblemRank
+        },
+        {
+          path: 'ContestProblemDetail/pId/:pId',
+          name: 'ContestProblemDetail',
+          component: ContestProblemDetail
         }
       ]
     }

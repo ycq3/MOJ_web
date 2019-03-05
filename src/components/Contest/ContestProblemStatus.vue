@@ -7,10 +7,10 @@
         <div>
           <el-form :inline="true">
             <el-form-item v-bind:label="pageText.problemId">
-              <el-input v-model="formData.pId"></el-input>
+              <el-input v-model="formData.pId" clearable></el-input>
             </el-form-item>
             <el-form-item v-bind:label="pageText.userId">
-              <el-input v-model="formData.uId"></el-input>
+              <el-input v-model="formData.uId" clearable></el-input>
             </el-form-item>
             <el-form-item v-bind:label="pageText.result">
               <el-select v-model="formData.resultSelect" clearable>
