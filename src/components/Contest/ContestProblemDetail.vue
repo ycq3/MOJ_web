@@ -2,15 +2,15 @@
   <el-row :gutter="20">
     <el-col :span="editorShow?8:24">
       <el-card>
-        <div slot="header">
-          <h1>{{problemData.title}}</h1>
+        <div slot="header" align="center">
+          <h1 style="margin-top: 0px;">{{problemData.title}}</h1>
           <small>Time Limit: {{problemData.time}}/{{problemData.other_time}} MS (C/Others) &emsp;</small>
           <small> Memory Limit: {{problemData.memory}}/{{problemData.other_memory}} K (C/Others)</small>
         </div>
         <div>
           <div id="pDescription" class="col">
             <div class="card-title">
-              <span class="h3">Problem Description:</span>
+              <h3>Problem Description:</h3>
             </div>
             <div v-html="problemData.describe" class="card-text bg-style">
 
@@ -63,48 +63,43 @@
             </div>
           </div>
         </div>
-        <div class="card-footer" style="margin: 10px">
-          <el-button type="primary" @click="show">{{btnText.editorBtn}}</el-button>
-          <el-button type="success" @click="showHistory">{{btnText.historyBtn}}</el-button>
+        <div class="card-footer" style="margin: 10px" align="center">
+          <el-button type="primary" @click="show">{{pageText.btnText.editorBtn}}</el-button>
+          <el-button type="success" @click="showHistory">{{pageText.btnText.historyBtn}}</el-button>
         </div>
 
       </el-card>
     </el-col>
     <el-col :span="editorShow?16:0">
       <!--编辑器-->
-      <el-card style="margin-bottom: 10px">
-        <div id="edit">
-          <div style="margin: 10px;">
-            <el-select v-model="selectData.selected" filterable placeholder="select language">
-              <el-option
-                v-for="(item,index) in selectData.language"
-                :key="index"
-                :label="item"
-                :value="index">
-              </el-option>
-            </el-select>
-            <el-button @click="show" style="float:right;">
-              <span class="sr-only">Close</span>
-              <span aria-hidden="true">&times;</span>
-            </el-button>
-          </div>
-          <div class="row" style="font-size: large;border-radius:4px">
-            <codemirror
-              id="editor"
-              class="text-left col-sm-12"
-              v-model="editorCode"
-              :options="cmOptions">
-            </codemirror>
-          </div>
-          <div class="row" style="padding: 5px">
-            <div class="col text-center">
-              <el-button
-                type="primary"
-                v-on:click="submit">{{btnText.submitBtn}}</el-button>
-              <el-button
-                type="danger"
-                v-on:click="clear">{{btnText.clearBtn}}</el-button>
-            </div>
+      <el-card>
+        <div slot="header">
+          <el-select v-model="selectData.selected" filterable placeholder="select language">
+            <el-option
+              v-for="(item,index) in selectData.language"
+              :key="index"
+              :label="item"
+              :value="index">
+            </el-option>
+          </el-select>
+          <el-button @click="show" style="float:right;" class="el-icon-close" circle type="info"></el-button>
+        </div>
+        <div style="font-size: large;border-radius:4px">
+          <codemirror
+            id="editor"
+            class="text-left col-sm-12"
+            v-model="editorCode"
+            :options="cmOptions">
+          </codemirror>
+        </div>
+        <div style="padding: 10px" align="center">
+          <div class="col text-center">
+            <el-button
+              type="primary"
+              v-on:click="submit">{{pageText.btnText.submitBtn}}</el-button>
+            <el-button
+              type="danger"
+              v-on:click="clear">{{pageText.btnText.clearBtn}}</el-button>
           </div>
         </div>
       </el-card>
@@ -113,47 +108,24 @@
 
 
     <!-- 提交记录 -->
-    <el-dialog :visible.sync="historyShow">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">
-              {{subHistoryTitle}}
-            </h4>
-            <button type="button" class="close" data-dismiss="modal"
-                    aria-hidden="true">×
-            </button>
-          </div>
-          <div class="modal-body overflow">
-            <table class="table text-center">
-              <thead>
-              <tr>
-                <th v-for="value in subTableText">{{value}}</th>
-              </tr>
-              </thead>
-              <transition-group name="list" tag="tbody">
-                <tr v-for="item in status_list" v-bind:key="item['runid']" id="status_list"
-                    v-bind:class="item['result']==6?'table-danger':item['result']==4?'table-success':'table-info'+' list-item'">
-                  <td v-bind:class="item['result']==6?'text-danger':item['result']==4?'text-success':'text-info'">
-                    {{resultSelect[item['result']]}}
-                  </td>
-                  <td>
-                    <router-link v-bind:to="'/viewCode/'+item['runid']" tag="a" target="_blank">
-                      {{languageSelect[item['language']]}}
-                    </router-link>
-                  </td>
-                  <td>{{item['submit_time']}}</td>
-                  <td>{{item['time']}}</td>
-                  <td>{{item['mem']}}</td>
-                </tr>
-              </transition-group>
-            </table>
-          </div>
-          <div class="modal-footer">
-            <!--<router-link v-bind:to="'/problemStatus/'+this.pId" class="mx-auto btn btn-primary" tag="a" target="_blank">{{viewAllSubmit}}</router-link>-->
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
+    <el-dialog :visible.sync="historyShow"
+      v-bind:title="pageText.subHistoryTitle">
+      <div>
+        <el-table
+          :data="statusList">
+          <el-table-column
+            v-for="(head,index) in pageText.subTableText"
+            :key='index'
+            :prop=head.key
+            :label=head.label
+            align="center"
+          >
+          </el-table-column>
+        </el-table>
+      </div>
+      <span slot="footer">
+        <el-button @click="historyShow = false" type="info">关 闭</el-button>
+      </span>
     </el-dialog><!-- /.modal -->
   </el-row>
 </template>
@@ -181,43 +153,50 @@
               showCursorWhenSelecting: true,//选择时是否显示光标
               autofocus: true,//获得焦点
             },
+            problemData: {//题目信息
+              title: '计算两点间的距离',
+              describe: '输入两点坐标（X1,Y1）,（X2,Y2）,计算并输出两点间的距离。',
+              input: '输入数据有多组，每组占一行，由4个实数组成，分别表示x1,y1,x2,y2,数据之间用空格隔开。',
+              output: '对于每组输入数据，输出一行，结果保留两位小数。',
+              sampleinput: '0 0 0 1\n' +
+              '0 1 1 0',
+              sampleoutput: '1.00\n' +
+              '1.41',
+              hint: '',
+              source: '',
+              time: '1000',
+              memory: '32768',
+              other_time: '2000',
+              other_memory: '65536',
+            },
             selectData: {//语言选择
               language: {},
               selected: '',
             },
             editorShow: false,
             historyShow: false,
-            viewAllSubmit: 'View All Submit',
+            pageText:{
+              subHistoryTitle: '历史提交',
+              subTableText: [
+                {key: 'status', label: 'Status'},
+                {key: 'language', label: 'Language'},
+                {key: 'submitTime', label: 'Submit Time'},
+                {key: 'time', label: 'Time'},
+                {key: 'mem', label: 'Mem.'},
+              ],
+              btnText: {
+                submitBtn: '提交',
+                clearBtn: '清空',
+                editorBtn: '编辑',
+                historyBtn: '历史',
+                subCloseBtn: '关闭'
+              },
+            },
             editorCode: '',
-            subHistoryTitle: 'Submit History',
-            subTableText: {
-              status: 'Status',
-              language: 'Language',
-              submitTime: 'Submit Time',
-              time: 'Time',
-              mem: 'Mem.',
-            },
-            problemData: {//题目信息
-              title: '',
-              describe: '',
-              input: '',
-              output: '',
-              sampleinput: '',
-              sampleoutput: '',
-              hint: '',
-              source: '',
-              time: '',
-              memory: '',
-              other_time: '',
-              other_memory: '',
-            },
-            btnText: {
-              submitBtn: 'Submit',
-              clearBtn: 'Clear',
-              editorBtn: 'Editor',
-              historyBtn: 'History',
-            },
-            status_list: [],
+            statusList: [
+              {status: 'accept', language: 'C++', submitTime: '2019-03-08 20:21:33', time: '20ms', mem: '600b'},
+              {status: 'error', language: 'C++', submitTime: '2019-03-08 20:21:33', time: '20ms', mem: '600b'},
+            ],
             resultSelect: [
               'Waiting',
               'Rejudge',
@@ -262,16 +241,43 @@
         methods:{
           show () {//编辑器显示关闭
             this.editorShow = !this.editorShow;
-            // if (this.editorShow == true) {
-            //   $("#pro").addClass("float-left").addClass("col-sm-4");
-            //   this.editorBtn = 'Close';
-            // } else {
-            //   $("#pro").removeClass("float-left").removeClass("col-sm-4");
-            //   this.editorBtn = 'Editor';
-            // }
+            if (this.editorShow == true) {
+              // $("#pro").addClass("float-left").addClass("col-sm-4");
+              this.pageText.btnText.editorBtn = '关闭';
+            } else {
+              // $("#pro").removeClass("float-left").removeClass("col-sm-4");
+              this.pageText.btnText.editorBtn = '编辑';
+            }
           },
           clear () {//编辑器内容清除
             this.editorCode = '';
+          },
+          submit () {//提交代码
+            console.log("submit");
+            // if (this.global.isLogin == false) {//提交前登陆检查
+            //   $("#login").modal("show");
+            // } else if (this.editorCode != '') {
+            //   axios.post('/problem/submit/' + this.pId, {
+            //     'language': this.selectData.selected,
+            //     'code': this.editorCode
+            //   }).then(response => {
+            //     this.$toastr.s("代码提交成功！提交编号" + response.data);
+            //     $("#historyBtn").click();
+            //   });
+            // }
+          },
+          showHistory () {//查看历史记录前检查登陆
+            console.log("history");
+            this.historyShow = !this.historyShow;
+            // if (!this.global.isLogin) {
+            //   console.log('login');
+            // } else {
+            //
+            //   axios.post('/problem/status/' + this.pId).then(response => {
+            //     let list = response.data.data;
+            //     this.status_list = list;
+            //   });
+            // }
           },
         },
         mounted() {
@@ -281,6 +287,8 @@
     }
 </script>
 
-<style scoped>
-
+<style>
+  .CodeMirror {
+    height: 550px;
+  }
 </style>

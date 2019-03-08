@@ -1,27 +1,46 @@
 <template>
     <div>
       <el-card shadow="hover">
-        <div slot="header">
-          <span>{{contestInformation.title}}</span>
-        </div>
-        <div>
-          <div>
+        <el-row slot="header">
+          <span>{{pageText.title}}</span>
+        </el-row>
+        <el-row>
+          <h1 align="center">{{contestInformation.title}}</h1>
+        </el-row>
+        <el-row>
+          <el-col :span="6" :offset="3">
             <label>{{pageText.beginTime}}:&nbsp;<span>{{contestInformation.beginTime}}</span>&emsp;</label>
-            <label>{{pageText.endTime}}:&nbsp;<span>{{contestInformation.endTime}}</span> </label>
-          </div>
-          <div>
-            <label>{{pageText.currentTime}}:&nbsp;<span>{{contestInformation.currentTime}}</span> </label>
-          </div>
-
-          <div>
-            <label>{{pageText.type}}:&nbsp;<span >{{contestInformation.type}} &emsp;</span></label>
-            <label>{{pageText.status}}:&nbsp;
+          </el-col>
+          <el-col :span="6" :offset="6">
+            <div align="right">{{pageText.endTime}}:&nbsp;<span>{{contestInformation.endTime}}</span> </div>
+          </el-col>
+        </el-row>
+        <br>
+        <el-row>
+          <el-col :span="18" :offset="3">
+            <el-progress :percentage="percentage"  :stroke-width="15" :show-text="false"></el-progress>
+          </el-col>
+        </el-row>
+        <br>
+        <el-row>
+          <el-col :span="6" :offset="9">
+            <div align="center">{{pageText.currentTime}}:&nbsp;<span>{{contestInformation.currentTime}}</span> </div>
+          </el-col>
+        </el-row>
+        <br>
+        <el-row>
+          <el-col :span="6" :offset="3">
+            <div>{{pageText.status}}:&nbsp;
               <span>
                 {{contestInformation.status}}
               </span>
-            </label>
-          </div>
-        </div>
+            </div>
+          </el-col>
+
+          <el-col :span="6" :offset="6">
+            <div align="right">{{pageText.type}}:&nbsp;<span >{{contestInformation.type}} &emsp;</span></div>
+          </el-col>
+        </el-row>
       </el-card>
     </div>
 </template>
@@ -37,12 +56,14 @@
               endTime: '结束时间',
               currentTime: '当前时间',
               type: '比赛类型',
-              status: '比赛状态'
+              status: '比赛状态',
+              title: '比赛信息'
             },
+            percentage: 0,
             contestInformation: {
-              title: 'problem title',
-              beginTime: '2019-1-1',
-              endTime: '2019-4-4',
+              title: '比赛标题',
+              beginTime: '2019-03-08 21:00:00',
+              endTime: '2019-03-08 22:00:00',
               status: 'running',
               type: 'Private',
               currentTime:'',
@@ -52,12 +73,22 @@
           }
         },
         mounted(){
+          this.thisTime = new Date('2019-03-08 21:30:00').getTime();
           this.setCurrentTime();//计时器启动
           console.log(this.id + "information");
         },
         watch:{
           thisTime:function () {//根据计时器计算当前时间
             this.contestInformation.currentTime=this.getTime();
+            let bTime = new Date(this.contestInformation.beginTime).getTime();
+            let eTime = new Date(this.contestInformation.endTime).getTime();console.log(eTime);
+            if (this.thisTime <= bTime){
+              this.percentage = 0;
+            } else if (this.thisTime >= eTime){
+              this.percentage = 100;
+            } else {
+              this.percentage = ((this.thisTime - bTime)/(eTime - bTime))*100;
+            }
             if (this.contestInformation.currentTime < this.contestInformation.beginTime) {
               this.contestInformation.status = 'Pending';
             } else if (this.contestInformation.currentTime > this.contestInformation.endTime) {
@@ -73,14 +104,14 @@
         },
         methods: {
           setCurrentTime(){//计时器走时，计算当前时间
-            this.thisTime+=1;
+            this.thisTime+=1000;
             setTimeout(()=>{console.log(this.contestInformation.currentTime);
               if (this.thisTimeFlag)
                 this.setCurrentTime();
             },1000);
           },
           getTime(){
-            let date=new Date(this.thisTime*1000);
+            let date=new Date(this.thisTime);
             let year=date.getFullYear();
             let month=date.getMonth()+1;
             let day=date.getDate();

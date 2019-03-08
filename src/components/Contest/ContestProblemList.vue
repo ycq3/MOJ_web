@@ -14,6 +14,7 @@
             :key='index'
             :prop=head.key
             :label=head.label
+            align="center"
           >
           </el-table-column>
         </el-table>
@@ -29,7 +30,7 @@
           return {
             cId: this.$route.params.id,
             pageText: {
-              title: '问题列表',
+              title: '题目列表',
             },
             problemListHeadText: [
               {key: 'solved', label: 'Solved'},

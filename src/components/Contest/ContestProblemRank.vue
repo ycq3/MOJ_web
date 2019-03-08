@@ -43,11 +43,11 @@
             ],//表头
             tableData: [//数据
               {rank:'1',nickname:'aa',solved:'3',penalty:'200',1:'201:43:19 (-1)',2:'270:18:50',3:'201:43:19 (-1)'},
-              {rank:'2',nickname:'bb',solved:'2',penalty:'200',2:'260:18:50',3:'202:43:19 (-1)'},
+              {rank:'2',nickname:'bb',solved:'2',penalty:'200',1:'(-2)',2:'260:18:50',3:'202:43:19 (-1)'},
             ],
             submitData: [
               {1:'2',2:'1',3:'2'},
-              {1:'0',2:'2',3:'1'}
+              {1:'-1',2:'2',3:'1'}
             ],//提交情况 2首A  1Ac 0无提交 -1错误  按照rank排名向下排   key为第几道题目
             cId: this.$route.params.id,
           }
@@ -75,6 +75,10 @@
 </script>
 
 <style>
+  .el-table--enable-row-hover .el-table__body tr:hover>td{
+    color: black !important;
+  }
+
   .column-cell-class-name-firstAccept {
     background-color: #00ff99;
     color: white;

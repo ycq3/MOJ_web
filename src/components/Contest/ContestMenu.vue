@@ -37,7 +37,7 @@
             id: this.contestId,
             pageText:{
               ContestInformation: '比赛信息',
-              ContestProblem: '比赛题目',
+              ContestProblem: '题目列表',
               ContestStatus: '提交情况',
               ContestRank: '排名信息'
             }
